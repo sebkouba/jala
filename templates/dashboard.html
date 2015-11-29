@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+    <h1>Dashboard</h1>
+ Here we go...
+    <ul>
+    {% for key, value in data.iteritems() %}
+        <li>{{ key }}: {{ value }}</li>
+    {% endfor %}
+
+    </ul>
+
+
+
+{% endblock %}
