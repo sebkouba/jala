@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import json
+
 __author__ = 'seb'
 from models import LogEntry, db_session
 from sqlalchemy import func
@@ -52,4 +54,5 @@ def requests_by_type():
     dashboards = LogEntry.query.filter(LogEntry.referrer.like("%Dashboard/%")).count()
     result = {'issues': issues, 'big_pics': big_pics, 'structures': structures,
               'agile': agile, 'dashboards': dashboards}
+    json_result = json.dumps(result)
     return result
