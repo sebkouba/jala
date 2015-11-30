@@ -10,7 +10,8 @@ import createdb as cdb
 engine = create_engine('sqlite:////tmp/jala.db', convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
-                                         bind=engine))
+                                         bind=engine,
+                                         expire_on_commit=False))
 Base = declarative_base()
 Base.query = db_session.query_property()
 

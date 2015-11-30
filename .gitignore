@@ -1,2 +1,4 @@
 /logs
 /db
+.idea
+*.pyc
