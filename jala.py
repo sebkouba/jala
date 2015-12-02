@@ -3,6 +3,7 @@ import json
 from flask import Flask, render_template, jsonify
 from createdb import db_session, create_db, requests_by_type
 from models import init_db
+import parser
 
 app = Flask(__name__)
 init_db()
@@ -24,7 +25,7 @@ def createdb():
 @app.route('/dash')
 def dash(chartID='chart_ID', chart_type='pie', chart_height=500):
     subtitleText = 'TestSubtitle'
-    dataSet = requests_by_type()
+    dataSet = parser.requests_by_type()
     pageType = 'graph'
     result = "[" + jsonify(data=dataSet).data + "]"
     series = [{'data': [{"name": 'Issues', "y": 3}, {'name': 'Boards', 'y': 6}]}]
