@@ -2,6 +2,7 @@
 __author__ = 'seb'
 from models import LogEntry, db_session
 import json
+import time
 
 
 def requests_by_type():
@@ -24,6 +25,8 @@ def requests_by_type():
         {'name': 'Issues', 'y': issues},
         {'name': 'Dashboards', 'y': dashboards},
         {'name': 'Agile', 'y': agile},
+        {'name': '', 'y': agile},
+
 
     ]
     json_result = json.dumps(result)
@@ -31,13 +34,17 @@ def requests_by_type():
 
 
 def get_count_like(keyword):
-    count = LogEntry.query.filter(LogEntry.referrer == "%" + keyword + "%").count()
+    start_time = time.time()
+    #count = LogEntry.query.filter(LogEntry.referrer == "%" + keyword + "%").count()
+    count = db_session.query(LogEntry).filter(LogEntry.destination.like(
+                                              "%" + keyword + "%")).count()
+    print("-- %s seconds --" % (time.time() - start_time))
     return count
 
 
 
 
-
+#res = session.query(Artist).filter(Artist.name=="Kutless").first()
 
 
 
