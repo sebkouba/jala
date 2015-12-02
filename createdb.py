@@ -15,10 +15,8 @@ def create_db():
         # data = open('example.log')
 
         line_re = re.compile(r'^([^\s]+)\s([^\s]+)\s([^\s]+)\s\[([^\]]+)\]\s\"(GET|POST)\s([^\s]+)\s([^\"]+)\"\s([^\s]+)\s([^\s]+)\s([^\s]+)\s\"([^\"]+)\"\s\"([^\"]+)\"\s\"([^\"]+)\"\s')
-        # target = os.path.join("/Users/seb/dev/jala/logs",
-         #                     "access_log.2015-11-25")
-        target = os.path.join("C:\\", "dev",
-                              "access_log.2015-11-27")
+        target = os.path.join("/Users/seb/dev/jala/logs", "access_log.2015-11-25")
+        # target = os.path.join("C:\\", "dev", "access_log.2015-11-27")
         with open(target) as f:
             for line in f:
                 tokens = line_re.match(line)
@@ -56,13 +54,16 @@ def requests_by_type():
     # structures = LogEntry.query.filter(LogEntry.referrer.like("%structure:widget%")).count()
     agile = LogEntry.query.filter(LogEntry.referrer.like("%RapidBoard%")).count()
     dashboards = LogEntry.query.filter(LogEntry.referrer.like("%Dashboard%")).count()
+    script_runner = LogEntry.query.filter(LogEntry.referrer.like("%scriptrunner%")).count()
     result = {'issues': issues, 'big_pics': big_pics, 'structures': structures,
               'agile': agile, 'dashboards': dashboards}
     mylist = [
         {'name': 'Issues', 'y': issues},
         {'name': 'Dashboards', 'y': dashboards},
         {'name': 'Agile', 'y': agile},
-
+        {'name': 'bigPics', 'y': big_pics},
+        {'name': 'Structures', 'y': structures},
+        {'name': 'ScriptRunner', 'y': script_runner},
     ]
     json_result = json.dumps(result)
     return mylist

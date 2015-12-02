@@ -27,7 +27,7 @@ def dash(chartID='chart_ID', chart_type='pie', chart_height=500):
     dataSet = requests_by_type()
     pageType = 'graph'
     result = "[" + jsonify(data=dataSet).data + "]"
-    series = [{'data': [{"name": 'Issues', "y": 3},{'name': 'Boards', 'y': 6}]}]
+    series = [{'data': [{"name": 'Issues', "y": 3}, {'name': 'Boards', 'y': 6}]}]
     # series = [{'data': [json.dumps(dataSet)]}]
     title = {"text": 'My Title'}
     xAxis = {"categories": ['xAxis Data1', 'xAxis Data2', 'xAxis Data3']}
