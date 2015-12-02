@@ -15,10 +15,10 @@ def create_db():
         # data = open('example.log')
 
         line_re = re.compile(r'^([^\s]+)\s([^\s]+)\s([^\s]+)\s\[([^\]]+)\]\s\"(GET|POST)\s([^\s]+)\s([^\"]+)\"\s([^\s]+)\s([^\s]+)\s([^\s]+)\s\"([^\"]+)\"\s\"([^\"]+)\"\s\"([^\"]+)\"\s')
-        # target = os.path.join("/Users/seb/dev/jala/logs",
-         #                     "access_log.2015-11-25")
-        target = os.path.join("C:\\", "dev",
-                              "access_log.2015-11-27")
+        target = os.path.join("/Users/seb/dev/jala/logs",
+                              "access_log.2015-11-25")
+        #target = os.path.join("C:\\", "dev",
+         #                     "access_log.2015-11-27")
         with open(target) as f:
             for line in f:
                 tokens = line_re.match(line)
