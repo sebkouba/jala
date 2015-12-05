@@ -1,7 +1,3 @@
-# -*- coding: utf-8 -*-
-__author__ = 'sebastian.kouba'
-
-
 def get_category(dest):
     if dest.startswith("/s/") or dest.startswith("/download/resources"):
         return "static"
@@ -247,15 +243,15 @@ def get_category(dest):
     if dest.startswith("/secure/QuickCreateIssue"):
         return 'QuickCreateIssue'
 
-    """
+    """    
         if ((requestMethod == RequestMethod.GET) & & dest.startswith(
                 "/secure/IssueAction!default.jspa"):
             return 'INLINE_EDIT_REFRESH'
-
+        
         if ((requestMethod == RequestMethod.POST) & & dest.startswith(
                 "/secure/IssueAction!default.jspa"):
             return 'INLINE_EDIT_POST'
-
+        
         if ((requestMethod == RequestMethod.POST) & & dest.startswith(
                 "/secure/IssueAction.jspa"):
             return 'INLINE_EDIT_POST'
@@ -467,36 +463,3 @@ def get_category(dest):
 
     if dest.startswith("/secure/Tempo") or dest.startswith("/Tempo"):
         return 'Tempo_misc'
-
-
-class CategoryParser:
-    def __init__(self):
-        # I know nothing about classes in python!
-        self.result = {}
-
-    def add_values(self, destination, duration, size):
-        if size == "-":
-            size = 0
-        cat = get_category(destination)
-        if cat not in self.result.keys():
-            self.result[cat] = {'duration': int(duration), 'size': int(size),
-                                'count': 1}
-        else:
-            self.result[cat]['duration'] += int(duration)
-            self.result[cat]['size'] += int(size)
-            self.result[cat]['count'] += 1
-"""
-What should this class do?
-Input?
-    RAW
-        destination -> category
-        duration
-        size
-        count
-Output?
-    '{"category": %s, "duration": %s, "size": %s, "count": %s"}'
-Plan:
-    Create an instance of this class
-    Feed it all the lines
-    Call the print method
-"""

@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 __author__ = 'sebastian.kouba'
 
-__author__ = 'sebastian.kouba'
 import re
 import os
 import pprint
 import operator
-
+from CategoryParser import CategoryParser
 
 def add_res_values(res_dict, category, duration, size):
     res_dict[category]["requests"] += 1
@@ -16,10 +15,12 @@ def add_res_values(res_dict, category, duration, size):
 line_re = re.compile(
     r'^([^\s]+)\s([^\s]+)\s([^\s]+)\s\[([^\]]+)\]\s\"(GET|POST)\s([^\s]+)\s([^\"]+)\"\s([^\s]+)\s([^\s]+)\s([^\s]+)\s\"([^\"]+)\"\s\"([^\"]+)\"\s\"([^\"]+)\"\s')
 
-# target = os.path.join("/Users/seb/dev/jala/logs", "access_log.2015-11-26")
-target = os.path.join("C:\\", "dev", "access_log.2015-12-01")
+target = os.path.join("/Users/seb/dev/jala/logs", "access_log.2015-11-26")
+#target = os.path.join("C:\\", "dev", "access_log.2015-12-01")
 #target = os.path.join("C:\\", "dev", "access_log.2015-11-26")
 result = {}
+cp = CategoryParser()
+
 with open(target) as f:
     case_dict = {
 
@@ -41,11 +42,10 @@ with open(target) as f:
             agent = tokens.group(12)
             session = tokens.group(13)
 
-            if destination.startswith("/s/"):
-                add_res_values(result, "static", duration, size)
+            cp.add_values(destination, duration, size)
 
     print ("-----------------------------------------------------------------")
-    pprint.pprint(result)
+    pprint.pprint(cp.result)
     #for user in result:
     #    print("{'username': '%s', 'duration': %s, 'requests': %s},"
     #          % (result[user]["user"], result[user]["duration"],
