@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import re
+
 __author__ = 'sebastian.kouba'
 
 
@@ -6,8 +8,16 @@ def get_category(dest):
     if dest.startswith("/s/") or dest.startswith("/download/resources"):
         return "static"
 
-    if dest.startswith("images"):
+    if dest.startswith("/images"):
         return "images"
+    if dest.startswith("/rest/tempo-timesheets/"):
+        return "Tempo Timesheet"
+
+    if dest.startswith("/rest/structure/"):
+        return "Structure"
+
+    if dest.startswith("/rest/keplerrominfo/"):
+        return "JJupin"
 
     if dest.startswith("/projects/"):
         return "projects"
@@ -28,6 +38,12 @@ def get_category(dest):
 
     if dest == "/i":
         return 'Issues'
+
+    if dest.startswith("/rest/api/2/user/viewissue/search"):
+        return "Issues"
+
+    if dest.startswith("/rest/api/2/issue"):
+        return "Issues"
 
     if dest.startswith("/secure/BrowseProjects.jspa"):
         return 'BrowseProjects'
@@ -116,13 +132,13 @@ def get_category(dest):
         return 'REST_ACTIVITY_STREAM'
 
     if dest.startswith("/rest/greenhopper/1.0/xboard"):
-        return 'REST_greenhopper_xboard'
+        return 'REST_Agile_xboard'
 
     if dest.startswith("/rest/greenhopper/1.0/rapidview"):
-        return 'REST_greenhopper_rapidview'
+        return 'REST_Agile_rapidview'
 
     if dest.startswith("/rest/greenhopper"):
-        return 'REST_greenhopper'
+        return 'REST_Agile'
 
     if dest.startswith("/rest/crm/"):
         return 'REST_CRM'
@@ -138,6 +154,9 @@ def get_category(dest):
 
     if dest.startswith("/login.jsp") or dest.startswith("/loginsso.jsp"):
         return 'Login'
+
+    if dest.startswith("/rest/auth/1/session"):
+        return "Login"
 
     if dest.startswith("/secure/Logout!") or dest.startswith("/logout"):
         return 'Logout'
@@ -199,7 +218,7 @@ def get_category(dest):
 
     if dest.startswith("/secure/RapidBoard.jspa") or (
                 dest == "/secure/GreenHopper.jspa"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/EditAction"):
         return 'EditAction'
@@ -291,59 +310,59 @@ def get_category(dest):
         "/secure/GHGoToBoard.jspa") or dest.startswith(
         "/secure/GHLocateIssueOnBoard.jspa") or dest.startswith(
         "/secure/GHLocateSprintOnBoard.jspa"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/VersionBoard.jspa") or dest.startswith(
             "/secure/VersionBoard!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/TaskBoard.jspa") or dest.startswith(
             "/secure/TaskBoard!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/VBRefreshBoard.jspa") or dest.startswith(
             "/secure/VBRefreshBoard!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/VBRefreshBreadcrumbs.jspa") or dest.startswith(
             "/secure/VBRefreshBreadcrumbs!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/BoardOptions.jspa") or dest.startswith(
             "/secure/BoardOptions!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/SearchBoard.jspa") or dest.startswith(
             "/secure/SearchBoard!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/ChartBoard.jspa") or dest.startswith(
             "/secure/ChartBoard!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/GetBoardForIssue2.jspa") or dest.startswith(
             "/secure/GetBoardForIssue2!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/GHCreateNewIssue.jspa") or dest.startswith(
             "/secure/GHCreateNewIssue!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/GHAddIssue.jspa") or dest.startswith(
             "/secure/GHAddIssue!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/GreenHopperClassic.jspa") or dest.startswith(
             "/secure/GreenHopperClassic!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/RapidView.jspa") or dest.startswith(
             "/secure/RapidView!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/ManageRapidViews.jspa") or dest.startswith(
             "/secure/ManageRapidViews!"):
-        return 'GreenHopper'
+        return 'Agile'
 
     if dest.startswith("/secure/MyJiraHome.jspa"):
         return 'MyJiraHome'
@@ -435,9 +454,6 @@ def get_category(dest):
     if dest.startswith("/rest/api/1.0/shortcuts"):
         return 'REST_API_SHORTCUTS'
 
-    if dest.startswith("/rest/api/"):
-        return 'REST_API'
-
     if dest.startswith("/rest/scriptrunner/"):
         return 'REST_scriptrunner'
 
@@ -456,9 +472,6 @@ def get_category(dest):
     if dest.startswith("/rest/bamboo/"):
         return 'REST_bamboo'
 
-    if dest.startswith("/rest/"):
-        return 'REST_OTHER'
-
     if dest.startswith("/secure/errors.jsp"):
         return 'Errors_jsp'
 
@@ -467,6 +480,36 @@ def get_category(dest):
 
     if dest.startswith("/secure/Tempo") or dest.startswith("/Tempo"):
         return 'Tempo_misc'
+
+    if dest.startswith("/rest/tempo-rest/"):
+        return "Tempo_Rest"
+
+    if dest.startswith("/rest/api/2/status"):
+        return "REST Status"
+
+    if dest.startswith("/rest/api/2/user?username"):
+        return "User info"
+
+    if dest.startswith("/rest/api/latest/user"):
+        return "User info"
+
+    re_rest_edit = re.compile(r'^/rest/api/2/issue/.*/editmeta')
+    rest_edit = re_rest_edit.match(dest)
+    if rest_edit:
+        return 'REST Edit Issue'
+
+    re_remote = re.compile(r'/rest/api/latest/issue/.*/remotelink')
+    remote = re_remote.match(dest)
+    if remote:
+        return "Issue Link"
+
+    if dest.startswith("/rest/api/"):
+        return 'REST_API'
+
+    if dest.startswith("/rest/"):
+        return 'REST_OTHER'
+
+    return "Other"
 
 
 class CategoryParser:
@@ -499,4 +542,14 @@ Plan:
     Create an instance of this class
     Feed it all the lines
     Call the print method
+
+    removed from leftovers:
+    ^/rest/api/2/issue/.*/editmeta.*\r\n
+    /rest/tempo-timesheets/.*\r\n
+    /rest/api/2/user\?username.*\r\n
+    /rest/auth/1/session
+    /rest/api/2/status
+    /rest/api/latest/issue/.*/remotelink
+    /rest/api/latest/user
+    /rest/api/2/issue
 """

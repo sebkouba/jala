@@ -15,8 +15,8 @@ def add_res_values(res_dict, category, duration, size):
 line_re = re.compile(
     r'^([^\s]+)\s([^\s]+)\s([^\s]+)\s\[([^\]]+)\]\s\"(GET|POST)\s([^\s]+)\s([^\"]+)\"\s([^\s]+)\s([^\s]+)\s([^\s]+)\s\"([^\"]+)\"\s\"([^\"]+)\"\s\"([^\"]+)\"\s')
 
-target = os.path.join("/Users/seb/dev/jala/logs", "access_log.2015-11-26")
-#target = os.path.join("C:\\", "dev", "access_log.2015-12-01")
+#target = os.path.join("/Users/seb/dev/jala/logs", "access_log.2015-11-26")
+target = os.path.join("C:\\", "dev", "access_log.2015-12-01")
 #target = os.path.join("C:\\", "dev", "access_log.2015-11-26")
 result = {}
 cp = CategoryParser()
@@ -45,11 +45,11 @@ with open(target) as f:
             cp.add_values(destination, duration, size)
 
     print ("-----------------------------------------------------------------")
-    pprint.pprint(cp.result)
-    #for user in result:
-    #    print("{'username': '%s', 'duration': %s, 'requests': %s},"
-    #          % (result[user]["user"], result[user]["duration"],
-    #             result[user]["requests"]))
+    #pprint.pprint(cp.result)
+    for cat in cp.result:
+        print("{'category': '%s', 'duration': %s, 'size': %s, 'requests': %s},"
+              % (cat, cp.result[cat]["duration"],
+                 cp.result[cat]["size"], cp.result[cat]["count"]))
     print ("done")
 
 
