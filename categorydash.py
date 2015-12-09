@@ -7,10 +7,6 @@ import pprint
 import operator
 from CategoryParser import CategoryParser
 
-def add_res_values(res_dict, category, duration, size):
-    res_dict[category]["requests"] += 1
-    res_dict[category]["duration"] += int(duration)
-    res_dict[category]["size"] += int(size)
 
 line_re = re.compile(
     r'^([^\s]+)\s([^\s]+)\s([^\s]+)\s\[([^\]]+)\]\s\"(GET|POST)\s([^\s]+)\s([^\"]+)\"\s([^\s]+)\s([^\s]+)\s([^\s]+)\s\"([^\"]+)\"\s\"([^\"]+)\"\s\"([^\"]+)\"\s')
