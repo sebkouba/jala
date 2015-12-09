@@ -11,8 +11,8 @@ line_re = re.compile(
     r'^([^\s]+)\s([^\s]+)\s([^\s]+)\s\[([^\]]+)\]\s\"(GET|POST)\s([^\s]+)\s([^\"]+)\"\s([^\s]+)\s([^\s]+)\s([^\s]+)\s\"([^\"]+)\"\s\"([^\"]+)\"\s\"([^\"]+)\"\s')
 
 # target = os.path.join("/Users/seb/dev/jala/logs", "access_log.2015-11-26")
-target = os.path.join("C:\\", "dev", "access_log.2015-12-01")
-#target = os.path.join("C:\\", "dev", "access_log.2015-11-26")
+#target = os.path.join("C:\\", "dev", "access_log.2015-12-01")
+target = os.path.join("C:\\", "dev", "access_log.2015-11-26")
 result = {}
 with open(target) as f:
     for line in f:

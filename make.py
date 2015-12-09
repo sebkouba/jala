@@ -14,14 +14,15 @@ import os
 import pprint
 import operator
 from CategoryParser import CategoryParser
+import HtmlBuilder as hb
 
 
 line_re = re.compile(
     r'^([^\s]+)\s([^\s]+)\s([^\s]+)\s\[([^\]]+)\]\s\"(GET|POST)\s([^\s]+)\s([^\"]+)\"\s([^\s]+)\s([^\s]+)\s([^\s]+)\s\"([^\"]+)\"\s\"([^\"]+)\"\s\"([^\"]+)\"\s')
 
-target = os.path.join("/Users/seb/dev/jala/logs", "access_log.2015-11-26")
+#target = os.path.join("/Users/seb/dev/jala/logs", "access_log.2015-11-26")
 #target = os.path.join("C:\\", "dev", "access_log.2015-12-01")
-#target = os.path.join("C:\\", "dev", "access_log.2015-11-26")
+target = os.path.join("C:\\", "dev", "access_log.2015-11-26")
 
 user_raw_data = {}
 cat_parser = CategoryParser()
@@ -71,11 +72,15 @@ with open(target) as f:
                            cat_parser.result[cat]["size"],
                            cat_parser.result[cat]["count"]))
 
+    user_data = "["
     for user in user_raw_data:
-        user_data.append("{'username': '%s', 'duration': %s, 'requests': %s},"
+        #user_data.append("{'username': '%s', 'duration': %s, 'requests': %s},"
+        user_data += ("{'username': '%s', 'duration': %s, 'requests': %s},"
                          % (user_raw_data[user]["user"],
                             user_raw_data[user]["duration"],
                             user_raw_data[user]["requests"]))
+    user_data += "]"
+    hb.HtmlBuilder(user_data)
     print("done")
 
 
