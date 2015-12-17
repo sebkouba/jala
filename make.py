@@ -3,8 +3,10 @@ import re
 import os
 import pprint
 import operator
-import HtmlBuilder as hb
+import HtmlBuilder
 import csv
+import CategoryParser
+import CategoryHtmlBuilder as CatBuild
 
 
 def write_csv(data, target_dir):
@@ -49,9 +51,9 @@ def create_user_raw_data(in_files):
     #target = os.path.join("C:\\", "dev", "access_log.2015-12-10")
 
     user_raw_data = {}
-
     # user_data = []
     cat_data = []
+    cp = CategoryParser.CategoryParser()
 
     for target in in_files:
 
@@ -74,7 +76,8 @@ def create_user_raw_data(in_files):
                     agent = tokens.group(12)
                     session = tokens.group(13)
 
-                    # cat_parser.add_values(destination, duration, size)
+                    cp.add_values(destination, duration, size)
+
 
                     if request_user not in user_raw_data.keys():
                         user_raw_data[request_user] = {"user": request_user,
@@ -95,11 +98,12 @@ def create_user_raw_data(in_files):
                                    cat_parser.result[cat]["size"],
                                    cat_parser.result[cat]["count"]))
             """
-    return user_raw_data
+    return user_raw_data, cp
 
 
-def write_raw_to_html_csv(user_raw_data):
+def write_raw_to_html_csv(user_raw_data, cat_parser):
     """
+    :param cat_parser: cat parser instance with cat values
     :param user_raw_data: data['username'][username,duration,requests]
     :return: creates csv and html files in timestamped directory
     """
@@ -111,15 +115,31 @@ def write_raw_to_html_csv(user_raw_data):
                             user_raw_data[user]["duration"],
                             user_raw_data[user]["requests"]))
     user_data += "]"
-    builder = hb.HtmlBuilder(user_data)
 
-    write_csv(user_raw_data, builder.dir_name)
+    cat_data = "["
+    for cat in cat_parser.result:
+        cat_data += ("{'category': '%s', "
+                        "'duration': %s, "
+                        "'size': %s, "
+                        "'requests': %s},"
+                        % (cat,
+                           cat_parser.result[cat]["duration"],
+                           cat_parser.result[cat]["size"],
+                           cat_parser.result[cat]["count"]))
+    cat_data += "]"
+
+    user_builder = HtmlBuilder.HtmlBuilder(user_data)
+    cat_builder = CatBuild.CategoryHtmlBuilder(cat_data,
+                                               user_builder.target_dir)
+    # why does this work? dir_name is only the subdir!
+    write_csv(user_raw_data, user_builder.dir_name)
+    write_csv(cat_parser.result, user_builder.dir_name)
 
 
 files = get_files_from_cwd()
 
 raw_data = create_user_raw_data(files)
 
-write_raw_to_html_csv(raw_data)
+write_raw_to_html_csv(raw_data[0], raw_data[1])
 
 print("done")

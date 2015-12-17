@@ -14,7 +14,7 @@ class HtmlBuilder:
         self.dir_name = dir_name
         target_dir = os.path.join(cwd, dir_name)
         os.mkdir(target_dir)
-
+        self.target_dir = target_dir
         # create JS file
         make_js(table_data, target_dir)
         # create html file
