@@ -9,8 +9,8 @@ import CategoryParser
 import CategoryHtmlBuilder as CatBuild
 
 
-def write_csv(data, target_dir):
-    target = os.path.join(target_dir, 'user_data.csv')
+def write_csv(data, target_dir, file_name):
+    target = os.path.join(target_dir, file_name)
     with open(target, 'wb') as fw:
         w = csv.writer(fw)
         #w.writerow(data.keys())
@@ -20,6 +20,17 @@ def write_csv(data, target_dir):
                        str(data[line]["duration"]) + ";" +
                        str(data[line]["requests"]))
             """
+
+
+def write_cat_csv(data, target_dir, file_name):
+    target = os.path.join(target_dir, file_name)
+    with open(target, 'wb') as fw:
+        w = csv.writer(fw)
+        #w.writerow(data.keys())
+        for line in data:
+            w.writerow([line, data[line]["duration"],
+                        data[line]["size"],
+                        data[line]["count"]])
 
 
 def get_files_from_cwd():
@@ -132,8 +143,8 @@ def write_raw_to_html_csv(user_raw_data, cat_parser):
     cat_builder = CatBuild.CategoryHtmlBuilder(cat_data,
                                                user_builder.target_dir)
     # why does this work? dir_name is only the subdir!
-    write_csv(user_raw_data, user_builder.dir_name)
-    write_csv(cat_parser.result, user_builder.dir_name)
+    write_csv(user_raw_data, user_builder.dir_name, "user.csv")
+    write_cat_csv(cat_parser.result, user_builder.dir_name, "category.csv")
 
 
 files = get_files_from_cwd()
