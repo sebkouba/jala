@@ -7,7 +7,7 @@ were saved with the default log settings from <install>/conf/server.xml:
 t;%{User-Agent}i&quot; &quot;%{jira.request.assession.id}r&quot;”/>
 ```
 # Usage
-This script only works with python 2!
+###This script only works with python 2!
 Access Logs must be in the same dir as the files. Filenames must start with `access_log`.
 
 Run `python make.py` to generate the html reports in a timestamped directory.
